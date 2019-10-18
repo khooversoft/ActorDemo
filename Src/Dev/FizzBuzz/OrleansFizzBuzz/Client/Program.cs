@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using GrainInterfaces;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading;
+using System.Diagnostics;
 
 namespace Client
 {
@@ -56,26 +58,48 @@ namespace Client
             return client;
         }
 
-        private static async Task DoClientWork(IClusterClient client)
+        private static Task DoClientWork(IClusterClient client)
         {
             // example of calling grains from the initialized client
             var fizzBuzz = client.GetGrain<IFizzBuzz>(0);
 
-            var valueList = new List<string>();
+            const int numberOfCallsToMake = 10000;
 
-            foreach (var testValue in Enumerable.Range(0, 100))
+            var valueList = new (int testValue, string evalulation)[numberOfCallsToMake];
+            int valueListIndex = valueList.GetLowerBound(0) - 1;
+            var taskList = new List<Task>(numberOfCallsToMake);
+
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            foreach (var testValue in Enumerable.Range(0, numberOfCallsToMake))
             {
-                string evaluation = await fizzBuzz.Evaluate(testValue);
-                valueList.Add($"{testValue,3}: {evaluation,-8}");
-
-                if (valueList.Count == 10)
+                Task t = fizzBuzz.Evaluate(testValue).ContinueWith(x =>
                 {
-                    Console.WriteLine(string.Join(", ", valueList));
-                    valueList.Clear();
-                }
+                    int nextIndex = Interlocked.Increment(ref valueListIndex);
+                    valueList[nextIndex] = (testValue, x.Result);
+                });
+
+                taskList.Add(t);
             }
 
-            Console.WriteLine(string.Join(", ", valueList));
+            Task.WaitAll(taskList.ToArray());
+            stopwatch.Stop();
+
+            Console.WriteLine($"Number of calls {numberOfCallsToMake}, timeMs {stopwatch.ElapsedMilliseconds}");
+
+            int lineCount = 0;
+            var grouping = valueList
+                .Select(x => $"{x.testValue,4}: {x.evalulation,-8}")
+                .GroupBy(x => lineCount++ / 10)
+                .Select(x => string.Join(", ", x));
+
+            foreach (var item in grouping)
+            {
+                Console.WriteLine(item);
+            }
+
+            return Task.FromResult(0);
         }
     }
 }
