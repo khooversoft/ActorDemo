@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
+using GrainInterfaces;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Orleans;
-using Orleans.Configuration;
+using System.Threading.Tasks;
 
 namespace FizzBuzzWebApi
 {
@@ -17,29 +12,13 @@ namespace FizzBuzzWebApi
     {
         public static async Task Main(string[] args)
         {
-            IClusterClient clusterClient = await ConnectClient();
+            IFizzBuzzService fizzBuzzService = await new FizzBuzzService("dev", "OrleansBasics", addConsole: true)
+                .Connect();
 
             CreateHostBuilder(args)
-                .ConfigureServices(services => services.AddSingleton(clusterClient))
+                .ConfigureServices(services => services.AddSingleton(fizzBuzzService))
                 .Build()
                 .Run();
-        }
-
-        private static async Task<IClusterClient> ConnectClient()
-        {
-            IClusterClient client;
-            client = new ClientBuilder()
-                .UseLocalhostClustering()
-                .Configure<ClusterOptions>(options =>
-                {
-                    options.ClusterId = "dev";
-                    options.ServiceId = "OrleansBasics";
-                })
-                .ConfigureLogging(logging => logging.AddConsole())
-                .Build();
-
-            await client.Connect();
-            return client;
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args)
