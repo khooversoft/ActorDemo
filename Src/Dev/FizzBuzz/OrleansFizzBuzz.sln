@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grains", "Grains\Grains.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2990FD05-31B2-439D-AAFE-604D1FEF542C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActorTests", "..\..\..\Test\FizzBuzz\ActorTests\ActorTests.csproj", "{FFDF7430-DF90-4C7F-A2B6-8C4A0048A4B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActorTests", "..\..\Test\FizzBuzz\ActorTests\ActorTests.csproj", "{326FBEE6-0E12-4EF0-9186-B62DDBFC3196}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FizzBuzzWebApi", "FizzBuzzWebApi\FizzBuzzWebApi.csproj", "{D2C6EB77-CF07-4848-A136-AE5BD3A6CCDD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,16 +39,20 @@ Global
 		{FE9D9B62-CA75-4775-A784-7848DFECA40B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE9D9B62-CA75-4775-A784-7848DFECA40B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE9D9B62-CA75-4775-A784-7848DFECA40B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FFDF7430-DF90-4C7F-A2B6-8C4A0048A4B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FFDF7430-DF90-4C7F-A2B6-8C4A0048A4B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FFDF7430-DF90-4C7F-A2B6-8C4A0048A4B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FFDF7430-DF90-4C7F-A2B6-8C4A0048A4B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{326FBEE6-0E12-4EF0-9186-B62DDBFC3196}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{326FBEE6-0E12-4EF0-9186-B62DDBFC3196}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{326FBEE6-0E12-4EF0-9186-B62DDBFC3196}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{326FBEE6-0E12-4EF0-9186-B62DDBFC3196}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2C6EB77-CF07-4848-A136-AE5BD3A6CCDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2C6EB77-CF07-4848-A136-AE5BD3A6CCDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2C6EB77-CF07-4848-A136-AE5BD3A6CCDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2C6EB77-CF07-4848-A136-AE5BD3A6CCDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{FFDF7430-DF90-4C7F-A2B6-8C4A0048A4B3} = {2990FD05-31B2-439D-AAFE-604D1FEF542C}
+		{326FBEE6-0E12-4EF0-9186-B62DDBFC3196} = {2990FD05-31B2-439D-AAFE-604D1FEF542C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0AAB5856-1AE9-453D-8ED7-7A33D11A9D6C}

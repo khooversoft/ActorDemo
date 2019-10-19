@@ -61,11 +61,11 @@ namespace Client
         private static Task DoClientWork(IClusterClient client)
         {
             // example of calling grains from the initialized client
-            var fizzBuzz = client.GetGrain<IFizzBuzz>(0);
+            IFizzBuzz fizzBuzz = client.GetGrain<IFizzBuzz>(0);
 
             const int numberOfCallsToMake = 10000;
 
-            var valueList = new (int testValue, string evalulation)[numberOfCallsToMake];
+            var valueList = new (int testValue, int threadId, string evalulation)[numberOfCallsToMake];
             int valueListIndex = valueList.GetLowerBound(0) - 1;
             var taskList = new List<Task>(numberOfCallsToMake);
 
@@ -77,7 +77,7 @@ namespace Client
                 Task t = fizzBuzz.Evaluate(testValue).ContinueWith(x =>
                 {
                     int nextIndex = Interlocked.Increment(ref valueListIndex);
-                    valueList[nextIndex] = (testValue, x.Result);
+                    valueList[nextIndex] = (testValue, Thread.CurrentThread.ManagedThreadId, x.Result);
                 });
 
                 taskList.Add(t);
@@ -90,7 +90,7 @@ namespace Client
 
             int lineCount = 0;
             var grouping = valueList
-                .Select(x => $"{x.testValue,4}: {x.evalulation,-8}")
+                .Select(x => $"{x.testValue,4}: {x.evalulation,-8} ({x.threadId,3})")
                 .GroupBy(x => lineCount++ / 10)
                 .Select(x => string.Join(", ", x));
 
